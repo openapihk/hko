@@ -55,6 +55,7 @@ paths:
                   - $ref: '#/components/schemas/Warnsum'
                   - $ref: '#/components/schemas/WarningInfo'
                   - $ref: '#/components/schemas/Swt'
+                  - $ref: '#/components/schemas/Empty'
 components:
   schemas:
     Flw:
@@ -504,4 +505,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/String'
-      
+
+    Empty:
+      type: "object"
