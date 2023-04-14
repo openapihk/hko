@@ -1,0 +1,507 @@
+openapi: 3.0.0
+info:
+  title: Weather API
+  description: |
+    Weather forecast and warning information.
+    Specification: https://data.weather.gov.hk/weatherAPI/doc/HKO_Open_Data_API_Documentation.pdf
+  version: '1.0'
+  contact:
+    name: Neo Alienson
+    email: 'neo@01man.com'
+    url: https://01man.com
+  termsOfService: https://openapihk.github.io/misc/terms_of_service.html
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://data.weather.gov.hk
+paths:
+  /weatherAPI/opendata/weather.php:
+    get:
+      summary: Get weather forecast and warning information
+      parameters:
+        - name: dataType
+          in: query
+          description: |
+            Type of data to retrieve
+            flw: Local Weather Forecast
+            fnd: 9-day Weather Forecast
+            rhrread: Current Weather Report
+            warnsum: Weather Warning Summary
+            warningInfo: Weather Warning Information
+            swt: Special Weather Tips
+          required: true
+          schema:
+            type: string
+            enum: [flw, fnd, rhrread, warnsum, warninginfo, swt]
+        - name: lang
+          in: query
+          description: Language of the data (en, tc, sc)
+          required: true
+          schema:
+            type: string
+            enum: [en, tc, sc]
+            default: en            
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Flw'
+                  - $ref: '#/components/schemas/Fnd'
+                  - $ref: '#/components/schemas/Rhrread'
+                  - $ref: '#/components/schemas/Warnsum'
+                  - $ref: '#/components/schemas/WarningInfo'
+                  - $ref: '#/components/schemas/Swt'
+components:
+  schemas:
+    Flw:
+      type: object
+      description: Local Weather Forecast
+      properties:
+        generalSituation:
+          type: string
+          description: General weather situation
+          example: Winds are weak over the coast of Guangdong.
+        tcInfo:
+          type: string
+          description: Tropical cyclone information
+          example: 
+        fireDangerWarning:
+          type: string
+          description: Fire danger warning message
+          example: 
+        forecastPeriod:
+          type: string
+          description: Forecast period details
+          example: Weather forecast for tonight and tomorrow
+        forecastDesc:
+          type: string
+          description: Forecast Description
+          example: Mainly cloudy. One or two showers tomorrow. Hot with sunny intervals in the afternoon. Temperatures will range between 23 and 29 degrees. Visibility relatively low in some areas. Light winds, becoming moderate northerlies tomorrow.
+        outlook:
+          type: string
+          description: Weather outlook
+          example: Mainly fine on Sunday. Hot during the day. Sunny periods and a few showers early next week. Weather becoming unsettled in the middle and latter parts of next week.
+        updateTime:
+          type: string
+          format: date-time
+          description: Time when the data was last updated in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+
+    Fnd:
+      type: object
+      properties:
+        generalSituation:
+          type: string
+          description: General weather situation
+          example: A band of clouds will bring showers to southern China tomorrow. Under the influence of the relatively dry continental airstream, the band of clouds will thin out gradually. The weather will be mainly fine over the region on Sunday. A southerly airstream is expected to bring a few showers to the coast of Guangdong early next week. A trough of low pressure will bring unsettled weather to southern China in the middle and latter parts of next week.
+        weatherForecast:
+          type: array
+          items:
+            type: object
+            properties:
+              forecastDate:
+                type: string
+                description: Forecast date in YYYYMMDD format
+                example: "20230415"
+              forecastWeather:
+                type: string
+                description: Forecast weather
+                example: "Mainly cloudy with one or two showers. Hot with sunny intervals in the afternoon. Visibility relatively low in some areas."
+              forecastMaxtemp:
+                allOf:
+                  - $ref: '#/components/schemas/Temperature'
+                description: Forecast maximum temperature
+              forecastMintemp:
+                allOf:
+                  - $ref: '#/components/schemas/Temperature'
+                description: Forecast minimum temperature
+              week:
+                type: string
+                description: Week of the forecast
+                example: "Saturday"
+              forecastWind:
+                type: string
+                description: Forecast wind
+                example: "Light winds force 2, becoming north force 3 to 4."
+              forecastMaxrh:
+                description: Forecast maximum relative humidity
+                allOf:
+                  - $ref: '#/components/schemas/Humidity'
+              forecastMinrh:
+                description: Forecast minimum relative humidity
+                allOf:               
+                  - $ref: '#/components/schemas/Humidity'
+              forecastIcon:
+                type: string
+                example:
+                description: Forecast weather icon
+              psr:
+                type: string
+                description: Probability of significant rain
+                example: "Low"
+              soilTemp:
+                allOf:
+                  - $ref: '#/components/schemas/SoilTemp'
+                description: Soil Temperature
+              seaTemp:
+                allOf:
+                  - $ref: '#/components/schemas/SeaTemp'
+                description: Soil Temperature
+      description: 9-day weather forecast response type
+
+    Rhrread:
+      type: object
+      properties:
+        lightning:
+          allOf:
+            - $ref: '#/components/schemas/Lightning'
+          description: Lightning data
+        rainfall:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rainfalls'
+          description: Rainfall data
+        icon:
+          type: array
+          items:
+            type: string
+          description: List of weather icons
+        iconUpdateTime:
+          type: string
+          format: date-time
+          description: Last update time for weather icons in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+        updateTime:
+          type: string
+          format: date-time
+          description: Last update time in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+        uvindex:
+          allOf:
+            - $ref: '#/components/schemas/UvIndex'
+          description: UV Index data
+        warningMessage:
+          oneOf: 
+            - $ref: '#/components/schemas/String'
+            - $ref: '#/components/schemas/StringArray'
+          items:
+            type: string
+          description: Return a List. If no data for warning message, empty string will be returned
+        rainstormReminder:
+          type: array
+          items:
+            type: string
+          description: List of rainstorm reminders
+        specialWxTips:
+          type: array
+          items:
+            type: string
+          description: List of special weather tips
+        tcmessage:
+          type: array
+          items:
+            type: string
+          description: List of tropical cyclone position messages
+        mintempFrom00To09:
+          allOf:
+            - $ref: '#/components/schemas/Temperature'
+          description: Minimum temperature from midnight to 9 AM
+        rainfallFrom00To12:
+          type: object
+          properties:
+            unit:
+              type: string
+              description: Unit of measurement for accumulated rainfall from midnight to noon
+            value:
+              type: number
+              description: Accumulated rainfall at HKO from midnight to noon
+            place:
+              type: string
+              description: Location of the accumulated rainfall data
+            recordTime:
+              type: string
+              format: date-time
+              description: Record time of the accumulated rainfall data in ISO 8601 format
+              example: '2020-09-01T08:19:00+08:00'
+          description: Accumulated rainfall from midnight to noon
+        rainfallLastMonth:
+          type: object
+          properties:
+            unit:
+              type: string
+              description: Unit of measurement for rainfall in last month
+            value:
+              type: number
+              description: Rainfall in last month
+          description: Rainfall in last month
+        rainfallJanuaryToLastMonth:
+          type: object
+          properties:
+            unit:
+              type: string
+              description: Unit of measurement for accumulated rainfall from January to last month
+            value:
+              type: number
+              description: Accumulated rainfall from January to last month
+          description: Accumulated rainfall from January to last month
+        temperature:
+          allOf:
+            - $ref: '#/components/schemas/Temperatures'
+          description: Temperature data
+        humidity:
+          allOf:
+            - $ref: '#/components/schemas/Humidites'
+          description: Humidity data
+        main:
+          type: boolean
+          description: Maintenance flag (TRUE/FALSE)
+      description: Current weather report response type
+          
+    Warnsum:
+      type: object
+      properties:
+        updateT:
+          type: string
+          description: Time when the data was last updated
+        warningMessage:
+          type: string
+          description: Summary of all current weather warnings
+        warningIcon:
+          type: string
+          description: Icon representing the highest level of warning in effect (if any)
+          nullable: true
+          example: 'amberRainstorm'
+        warningSignal:
+          type: string
+          description: Signal representing the highest level of warning in effect (if any)
+          nullable: true
+          example: 'amberRainstorm'
+    WarningInfo:
+      type: object
+      properties:
+        updateT:
+          type: string
+          description: Time when the data was last updated
+        infoDate:
+          type: string
+          description: Date of the warning information
+        warningInfo:
+          type: string
+          description: Details of the weather warning (if any)
+          nullable: true
+          example: 'The tropical cyclone will move north-northwest at about 15 kilometres per hour towards the vicinity of the central coast of Vietnam.'
+    Swt:
+      type: object
+      properties:
+        updateT:
+          type: string
+          description: Time when the data was last updated
+        tips:
+          type: string
+          description: Special weather tips
+          
+    SoilTemp:
+      type: object
+      properties:
+        place:
+          type: string
+          description: Location of the soil temperature reading
+        value:
+          type: number
+          description: Soil temperature value
+        unit:
+          type: string
+          description: Unit of measurement for the soil temperature value
+        recordTime:
+          type: string
+          format: date-time
+          description: Time when the data was recorded in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+        depth:
+          type: object
+          properties:
+            value:
+              type: number
+              description: Depth value of the measurement
+            unit:
+              type: string
+              description: Unit of measurement for the depth value
+          description: Depth of the soil temperature measurement
+      description: Soil temperature response type
+      
+    SeaTemp:
+      type: object
+      properties:
+        place:
+          type: string
+          description: Location of the sea surface temperature reading
+        value:
+          type: number
+          description: Sea surface temperature value
+        unit:
+          type: string
+          description: Unit of measurement for the sea surface temperature value
+        recordTime:
+          type: string
+          format: date-time
+          description: Time when the data was recorded in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+      description: Sea surface temperature response type
+
+    Humidites:
+      type: object
+      description: Humidity response collection
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Humidity'    
+        recordTime:
+          type: string
+          format: date-time
+          description: End time in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+          
+    Humidity:
+      type: object
+      properties:
+        forecastMaxrh:
+          type: object
+          properties:
+            value:
+              type: number
+              description: Maximum relative humidity value
+              example: 95
+            unit:
+              type: string
+              description: Unit of measurement for the maximum relative humidity value
+              example: "percent"
+      description: Humidity response type
+      
+    Temperatures:
+      type: object
+      description: Temperature response collection
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Temperature'    
+        recordTime:
+          type: string
+          format: date-time
+          description: End time in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+          
+    Temperature:
+      type: object
+      properties:
+        forecastMintemp:
+          type: object
+          properties:
+            value:
+              type: number
+              description: Minimum temperature value
+              example: 23
+            unit:
+              type: string
+              description: Unit of measurement for the minimum temperature value
+              example: "C"
+      description: Temperature response type
+
+    Rainfalls:
+      type: object
+      description: Rainfall response collection
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rainfall'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the rainfall data in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the rainfall data in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+          
+    Rainfall:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Unit of measurement for the rainfall data
+          example: mm
+        place:
+          type: string
+          description: Location of the rainfall data
+          example: "Islands District"
+        max:
+          type: number
+          description: Maximum rainfall value
+          example: 0
+        recordMax:
+          type: boolean
+          description: Maintenance flag for maximum rainfall value
+        min:
+          type: number
+          description: Minimum rainfall value
+        recordMin:
+          type: boolean
+          description: Maintenance flag for minimum rainfall value
+      description: Rainfall response type
+      
+    Lightning:
+      type: object
+      properties:
+        place:
+          type: string
+          description: Location of the lightning data
+        occur:
+          type: boolean
+          description: Indicates if lightning occurred at the location or not
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the lightning data in ISO 8601 format
+          example: '2020-09-01T08:19:00+08:00'
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the lightning data in ISO 8601 format
+      description: Lightning response type
+      
+    UvIndex:
+      type: object
+      properties:
+        place:
+          type: string
+          description: Location for the UV Index data
+        value:
+          type: number
+          description: UV Index value
+        desc:
+          type: string
+          description: Description of the UV Index value
+        message:
+          type: string
+          description: Message about the UV Index value
+        recordDesc:
+          type: string
+          description: Record description for the UV Index value
+      description: UV Index response type
+      
+    String:
+      type: string
+      
+    StringArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/String'
+      
