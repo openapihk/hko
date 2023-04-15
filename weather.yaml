@@ -46,7 +46,7 @@ paths:
         '200':
           description: Success
           content:
-            application/json:
+            application/json; charset=utf-8:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/Flw'
@@ -61,6 +61,7 @@ components:
     Flw:
       type: object
       description: Local Weather Forecast
+      required: [ generalSituation, fireDangerWarning, forecastPeriod, forecastDesc, outlook, updateTime ]
       properties:
         generalSituation:
           type: string
