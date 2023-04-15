@@ -54,7 +54,7 @@ paths:
                   - $ref: '#/components/schemas/Rhrread'
                   - $ref: '#/components/schemas/Warnsum'
                   - $ref: '#/components/schemas/WarningInfo'
-                  - $ref: '#/components/schemas/Swt'
+                  - $ref: '#/components/schemas/Swts'
                   - $ref: '#/components/schemas/Empty'
 components:
   schemas:
@@ -95,6 +95,7 @@ components:
 
     Fnd:
       type: object
+      required: [ generalSituation, weatherForecast]
       properties:
         generalSituation:
           type: string
@@ -157,6 +158,7 @@ components:
 
     Rhrread:
       type: object
+      required: [ rainfall, icon, iconUpdateTime ]
       properties:
         lightning:
           allOf:
@@ -290,21 +292,42 @@ components:
           description: Time when the data was last updated
         infoDate:
           type: string
+          format: date-time
           description: Date of the warning information
         warningInfo:
           type: string
           description: Details of the weather warning (if any)
           nullable: true
           example: 'The tropical cyclone will move north-northwest at about 15 kilometres per hour towards the vicinity of the central coast of Vietnam.'
+
+    Swts:
+      type: object
+      required: [ swt ]
+      properties:
+        swt:
+          type: array
+          items:
+            $ref: '#/components/schemas/Swt'
+          
     Swt:
       type: object
       properties:
-        updateT:
+        updateTime:
           type: string
           description: Time when the data was last updated
-        tips:
+          format: date-time
+          example: "2020-09-24T14:10:00+08:00"
+        desc:
           type: string
-          description: Special weather tips
+          example: "The Hong Kong Observatory announces that the Tropical
+Cyclone Warning Signal Number 8 is expected to be issued at or before 4:07 p.m.
+today (24 Sep 2020). Winds locally will strengthen further.The Government advises
+members of the public with long or difficult home journeys or having to return to
+outlying islands to begin their journeys now. The Government is now making
+arrangements to release its employees accordingly.Announcement by the Education
+Bureau (EDB):The EDB announces that classes of all day schools are suspended
+today. If classes of evening schools are required to be suspended, the bureau will
+make the announcement in due course."
           
     SoilTemp:
       type: object
