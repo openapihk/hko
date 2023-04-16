@@ -4,7 +4,7 @@ info:
   description: |
     Weather forecast and warning information.
     Specification: https://data.weather.gov.hk/weatherAPI/doc/HKO_Open_Data_API_Documentation.pdf
-  version: '1.0'
+  version: '1.8'
   contact:
     name: Neo Alienson
     email: 'neo@01man.com'
