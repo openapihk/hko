@@ -70,11 +70,13 @@ components:
         tcInfo:
           type: string
           description: Tropical cyclone information
-          example: 
+          nullable: fales
+          example: ""
         fireDangerWarning:
           type: string
           description: Fire danger warning message
-          example: 
+          nullable: false
+          example: ""
         forecastPeriod:
           type: string
           description: Forecast period details
