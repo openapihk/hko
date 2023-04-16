@@ -1,0 +1,9 @@
+{
+  "generalSituation": "The weather is mainly fine over southern China.",
+  "tcInfo": "",
+  "fireDangerWarning": "",
+  "forecastPeriod": "Weather forecast for tonight and tomorrow",
+  "forecastDesc": "Fine overnight. Coastal mist tomorrow morning. The minimum temperature will be about 23 degrees. Hot with sunny periods during the day. The maximum temperature will be around 29 degrees in the urban areas, and a couple of degrees higher in the New Territories. Moderate east to southeasterly winds.",
+  "outlook": "Sunny intervals and a few showers on Tuesday. Weather becoming unsettled in the following couple of days.",
+  "updateTime": "2023-04-16T21:45:00+08:00"
+}
