@@ -4,11 +4,11 @@ info:
   description: |
     Weather forecast and warning information.
     Specification: https://data.weather.gov.hk/weatherAPI/doc/HKO_Open_Data_API_Documentation.pdf
-  version: '1.0'
+  version: '1.8'
   contact:
     name: Neo Alienson
     email: 'neo@01man.com'
-    url: https://01man.com
+    url: https://openapihk.github.io/portal
   termsOfService: https://openapihk.github.io/misc/terms_of_service.html
   license:
     name: Apache 2.0
@@ -41,7 +41,7 @@ paths:
           schema:
             type: string
             enum: [en, tc, sc]
-            default: en            
+            default: en
       responses:
         '200':
           description: Success
@@ -70,11 +70,13 @@ components:
         tcInfo:
           type: string
           description: Tropical cyclone information
-          example: 
+          nullable: fales
+          example: ""
         fireDangerWarning:
           type: string
           description: Fire danger warning message
-          example: 
+          nullable: false
+          example: ""
         forecastPeriod:
           type: string
           description: Forecast period details
@@ -136,7 +138,7 @@ components:
                   - $ref: '#/components/schemas/Humidity'
               forecastMinrh:
                 description: Forecast minimum relative humidity
-                allOf:               
+                allOf:
                   - $ref: '#/components/schemas/Humidity'
               forecastIcon:
                 type: string
@@ -189,7 +191,7 @@ components:
             - $ref: '#/components/schemas/UvIndex'
           description: UV Index data
         warningMessage:
-          oneOf: 
+          oneOf:
             - $ref: '#/components/schemas/String'
             - $ref: '#/components/schemas/StringArray'
           items:
@@ -264,7 +266,7 @@ components:
           type: boolean
           description: Maintenance flag (TRUE/FALSE)
       description: Current weather report response type
-          
+
     Warnsum:
       type: object
       properties:
@@ -308,7 +310,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Swt'
-          
+
     Swt:
       type: object
       properties:
@@ -328,7 +330,7 @@ arrangements to release its employees accordingly.Announcement by the Education
 Bureau (EDB):The EDB announces that classes of all day schools are suspended
 today. If classes of evening schools are required to be suspended, the bureau will
 make the announcement in due course."
-          
+
     SoilTemp:
       type: object
       properties:
@@ -357,7 +359,7 @@ make the announcement in due course."
               description: Unit of measurement for the depth value
           description: Depth of the soil temperature measurement
       description: Soil temperature response type
-      
+
     SeaTemp:
       type: object
       properties:
@@ -384,13 +386,13 @@ make the announcement in due course."
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Humidity'    
+            $ref: '#/components/schemas/Humidity'
         recordTime:
           type: string
           format: date-time
           description: End time in ISO 8601 format
           example: '2020-09-01T08:19:00+08:00'
-          
+
     Humidity:
       type: object
       properties:
@@ -406,7 +408,7 @@ make the announcement in due course."
               description: Unit of measurement for the maximum relative humidity value
               example: "percent"
       description: Humidity response type
-      
+
     Temperatures:
       type: object
       description: Temperature response collection
@@ -414,13 +416,13 @@ make the announcement in due course."
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Temperature'    
+            $ref: '#/components/schemas/Temperature'
         recordTime:
           type: string
           format: date-time
           description: End time in ISO 8601 format
           example: '2020-09-01T08:19:00+08:00'
-          
+
     Temperature:
       type: object
       properties:
@@ -455,7 +457,7 @@ make the announcement in due course."
           format: date-time
           description: End time of the rainfall data in ISO 8601 format
           example: '2020-09-01T08:19:00+08:00'
-          
+
     Rainfall:
       type: object
       properties:
@@ -481,7 +483,7 @@ make the announcement in due course."
           type: boolean
           description: Maintenance flag for minimum rainfall value
       description: Rainfall response type
-      
+
     Lightning:
       type: object
       properties:
@@ -501,7 +503,7 @@ make the announcement in due course."
           format: date-time
           description: End time of the lightning data in ISO 8601 format
       description: Lightning response type
-      
+
     UvIndex:
       type: object
       properties:
@@ -521,10 +523,10 @@ make the announcement in due course."
           type: string
           description: Record description for the UV Index value
       description: UV Index response type
-      
+
     String:
       type: string
-      
+
     StringArray:
       type: array
       items:
