@@ -16,14 +16,13 @@ stages:
   - job: test
     steps:
     - script: |
-      portman -l weather.yaml -c portman-config.json
-  
+        portman -l weather.yaml -c portman-config.json
+
 - stage: schema-validation
+  dependsOn: [] 
   displayName: 'Validate schema from API server'
   jobs:
   - job: test
     steps:
     - script: |
-    portman -l weather.yaml -c portman-config-schema-validation.json
-  dependsOn: [] 
-- script: |
+        portman -l weather.yaml -c portman-config-schema-validation.json
