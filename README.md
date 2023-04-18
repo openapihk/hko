@@ -1,5 +1,11 @@
 # Hong Kong Observatory API specification
 
+[![Build Status](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_apis/build/status%2Fopenapihk.hong_kong_observatory?branchName=main)](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_build/latest?definitionId=1&branchName=main)
+
+## Test Depenedency
+1. portman
+2. newman
+
 ## Test
 portman -l weather.yaml  --cliOptionsFile portman-cli.json
 
