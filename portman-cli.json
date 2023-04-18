@@ -1,8 +1,0 @@
-{
-  "output": "collection.postman.json",
-  "portmanConfigFile": "portman-config.json",
-  "includeTests": true,
-  "syncPostman": false,
-  "runNewman": true
-}
-

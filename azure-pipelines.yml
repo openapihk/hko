@@ -9,8 +9,21 @@ trigger:
 pool:
   name: Default
 
-steps:
-
+stages:
+- stage: api-live
+  displayName: 'Test the API server is live'
+  jobs:
+  - job: test
+    steps:
+    - script: |
+      portman -l weather.yaml -c portman-config.json
+  
+- stage: schema-validation
+  displayName: 'Validate schema from API server'
+  jobs:
+  - job: test
+    steps:
+    - script: |
+    portman -l weather.yaml -c portman-config-schema-validation.json
+  dependsOn: [] 
 - script: |
-    portman -l weather.yaml --cliOptionsFile portman-cli.json
-  displayName: 'Generate Postman collection and run test'

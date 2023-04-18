@@ -29,7 +29,7 @@
         {
           "openApiOperation": "*::/*",
           "schemaValidation": {
-            "enabled": true
+            "enabled": false
           }
         },
         {
