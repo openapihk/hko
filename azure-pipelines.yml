@@ -19,7 +19,6 @@ stages:
         portman -l weather.yaml -c portman-config.json -n
 
 - stage: schema_validation
-  dependsOn: [] 
   displayName: 'Validate schema from API server'
   jobs:
   - job: test
