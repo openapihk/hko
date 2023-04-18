@@ -10,7 +10,7 @@ pool:
   name: Default
 
 stages:
-- stage: api-live
+- stage: api_live
   displayName: 'Test the API server is live'
   jobs:
   - job: test
@@ -18,7 +18,7 @@ stages:
     - script: |
         portman -l weather.yaml -c portman-config.json
 
-- stage: schema-validation
+- stage: schema_validation
   dependsOn: [] 
   displayName: 'Validate schema from API server'
   jobs:
