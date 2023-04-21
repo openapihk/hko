@@ -8,7 +8,7 @@
 2. newman
 
 ## Test
-portman -l weather.yaml  --cliOptionsFile portman-cli.json
+portman -l weather.yaml -c portman-config-schema-validation.json -n
 
 ## Reference
 1. https://data.weather.gov.hk/weatherAPI/doc/HKO_Open_Data_API_Documentation.pdf
