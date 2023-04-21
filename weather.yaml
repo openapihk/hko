@@ -48,7 +48,7 @@ paths:
           content:
             application/json; charset=utf-8:
               schema:
-                oneOf:
+                anyOf:
                   - $ref: '#/components/schemas/Flw'
                   - $ref: '#/components/schemas/Fnd'
                   - $ref: '#/components/schemas/Rhrread'
