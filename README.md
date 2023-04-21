@@ -1,14 +1,14 @@
 # Hong Kong Observatory API specification
 
-[![Build Status](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_apis/build/status%2Fopenapihk.hong_kong_observatory?branchName=main&label=API%20is%20live&stage=api_live)](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_build/latest?definitionId=1&branchName=main)
-[![Build Status](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_apis/build/status%2Fopenapihk.hong_kong_observatory?branchName=main&label=Schema%20is%20valid&stage=schema_validation)](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_build/latest?definitionId=1&branchName=main)
+[![Build Status](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_apis/build/status%2Fopenapihk.hong_kong_observatory?branchName=main&label=API%20is%20live&stageName=Test%20the%20API%20server%20is%20live)](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_build/latest?definitionId=1&branchName=main)
+[![Build Status](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_apis/build/status%2Fopenapihk.hong_kong_observatory?branchName=main&label=Schema%20is%20valid&stageName=Validate%20schema%20from%20API%20server)](https://dev.azure.com/openapihk/Hong%20Kong%20Observatory/_build/latest?definitionId=1&branchName=main)
 
 ## Test Depenedency
 1. portman
 2. newman
 
 ## Test
-portman -l weather.yaml -c portman-config-schema-validation.json -n
+portman -l weather.yaml -t -n
 
 ## Reference
 1. https://data.weather.gov.hk/weatherAPI/doc/HKO_Open_Data_API_Documentation.pdf
