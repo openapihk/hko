@@ -56,6 +56,37 @@ paths:
                   - $ref: '#/components/schemas/WarningInfo'
                   - $ref: '#/components/schemas/Swts'
                   - $ref: '#/components/schemas/Empty'
+paths:
+  /weatherAPI/opendata/lunardate.php:
+    get:
+      summary: Gregorian-Lunar Calendar Conversion API 
+      parameters:
+        - name: date
+          in: query
+          description: |
+            Pass this parameter with parameter “date” in the format “YYYY-MM-DD”
+          required: true
+          example: 2023-1-1
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  LunarYear:
+                    type: string
+                    description: Lunar year in traditional Chinese
+                    example: 癸卯年，兔
+                  LunarDate:
+                    type: string
+                    description: Lunar date in traditional Chinese
+                    example: 二月初十
+ 
 components:
   schemas:
     Flw:
