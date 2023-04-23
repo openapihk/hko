@@ -56,7 +56,6 @@ paths:
                   - $ref: '#/components/schemas/WarningInfo'
                   - $ref: '#/components/schemas/Swts'
                   - $ref: '#/components/schemas/Empty'
-paths:
   /weatherAPI/opendata/lunardate.php:
     get:
       summary: Gregorian-Lunar Calendar Conversion API 
