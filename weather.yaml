@@ -56,6 +56,38 @@ paths:
                   - $ref: '#/components/schemas/WarningInfo'
                   - $ref: '#/components/schemas/Swts'
                   - $ref: '#/components/schemas/Empty'
+
+  /weatherAPI/opendata/earthquake.php:
+    get:
+      summary: Retrieve earthquake information
+      parameters:
+        - name: dataType
+          in: query
+          description: Type of earthquake data to retrieve
+          required: true
+          schema:
+            type: string
+            enum:
+              - qem
+              - feltearthquake
+        - name: lang
+          in: query
+          description: Language of earthquake data to retrieve
+          required: false
+          schema:
+            type: string
+            enum: [en, tc, sc]
+      responses:
+        '200':
+          description: Successful response with earthquake information
+          content:
+            text/html; charset=utf-8:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/QuickEarthquakeMessage'
+                  - $ref: '#/components/schemas/Earthquake'
+                  - $ref: '#/components/schemas/Empty'
+                    
   /weatherAPI/opendata/lunardate.php:
     get:
       summary: Gregorian-Lunar Calendar Conversion API 
@@ -561,6 +593,95 @@ make the announcement in due course."
       type: array
       items:
         $ref: '#/components/schemas/String'
+
+    QuickEarthquakeMessage:
+      type: object
+      required:
+        - lat
+        - lon
+        - mag
+        - region
+        - ptime
+        - updateTime
+      properties:
+        lat:
+          type: number
+          format: float
+          description: Latitude of the earthquake location
+          example: 22.5
+        lon:
+          type: number
+          format: float
+          description: Longitude of the earthquake location
+          example: 114.1
+        mag:
+          type: number
+          format: float
+          description: Magnitude of the earthquake on Richter scale
+          example: 3.5
+        region:
+          type: string
+          description: Region of the earthquake
+          example: South China Sea
+        ptime:
+          type: string
+          format: date-time
+          description: Date and time of the earthquake occurrence
+          example: '2020-09-01T08:19:00+08:00'
+        updateTime:
+          type: string
+          format: date-time
+          description: Last update time of the earthquake information
+
+    Earthquake:
+      type: object
+      required:
+        - mag
+        - region
+        - intensity
+        - lat
+        - lon
+        - details
+        - ptime
+        - updateTime
+      properties:
+        mag:
+          type: number
+          format: float
+          description: Magnitude of the earthquake on Richter scale
+          example: 3.5
+        region:
+          type: string
+          description: Region of the earthquake
+          example: South China Sea
+        intensity:
+          type: string
+          description: Intensity of the earthquake
+          example: Moderate
+        lat:
+          type: number
+          format: float
+          description: Latitude of the earthquake location
+          example: 22.5
+        lon:
+          type: number
+          format: float
+          description: Longitude of the earthquake location
+          example: 114.1
+        details:
+          type: string
+          description: Details of the earthquake
+          example: A moderate earthquake occurred in South China Sea
+        ptime:
+          type: string
+          format: date-time
+          description: Date and time of the earthquake occurrence
+          example: '2020-09-01T08:19:00+08:00'
+        updateTime:
+          type: string
+          format: date-time
+          description: Last update time of the earthquake information
+          example: '2020-09-01T08:19:00+08:00'
 
     Empty:
       type: "object"
