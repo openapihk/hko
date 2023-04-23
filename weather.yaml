@@ -81,13 +81,13 @@ paths:
         '200':
           description: Successful response with earthquake information
           content:
-            text/html; charset=utf-8:
+            application/json; charset=utf-8:
               schema:
                 anyOf:
                   - $ref: '#/components/schemas/QuickEarthquakeMessage'
                   - $ref: '#/components/schemas/Earthquake'
                   - $ref: '#/components/schemas/Empty'
-                    
+
   /weatherAPI/opendata/lunardate.php:
     get:
       summary: Gregorian-Lunar Calendar Conversion API 
@@ -105,7 +105,7 @@ paths:
         '200':
           description: Success
           content:
-            text/html; charset=UTF-8:
+            application/json; charset=UTF-8:
               schema:
                 type: object
                 properties:
